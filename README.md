@@ -26,7 +26,7 @@ Optidum is a Fabric mod that significantly improves Minecraft's performance by o
 - **Minecraft**: 26.1.1+
 - **Fabric Loader**: ≥0.18.6
 - **Fabric API**: Required
-- **Sodium**: Recommended (≥0.6.0) but not required
+- **Sodium**: Required (≥0.6.0)
 - **Cloth Config**: Suggested for GUI configuration (≥13.0.121)
 
  ## License
