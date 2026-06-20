@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.LinkedList;
 import java.util.Queue;
 
+@SuppressWarnings("unused")
 public class RenderDistanceManager {
     private static final Logger LOGGER = LoggerFactory.getLogger("Optidum/RenderDistance");
     

@@ -17,12 +17,8 @@ public class OptidumClient implements ClientModInitializer {
         LOGGER.info("Optidum client initializing...");
         
         // Register the render distance applier callback
-        RenderDistanceManager.setApplier(renderDistance -> {
-            Minecraft client = Minecraft.getInstance();
-            if (client != null && client.options != null) {
-                client.options.renderDistance().set(renderDistance);
-            }
-        });
+        RenderDistanceManager.setApplier(renderDistance ->
+            Minecraft.getInstance().options.renderDistance().set(renderDistance));
         
         // Sodium is a hard dependency; apply the performance profile once it is available.
         Optidum.isSodiumLoaded = FabricLoader.getInstance().isModLoaded("sodium");

@@ -12,20 +12,14 @@ public class MinecraftClientMixin {
     
     static {
         // Register the render distance applier callback
-        RenderDistanceManager.setApplier(renderDistance -> {
-            Minecraft client = Minecraft.getInstance();
-            if (client != null && client.options != null) {
-                client.options.renderDistance().set(renderDistance);
-            }
-        });
+        RenderDistanceManager.setApplier(renderDistance ->
+            Minecraft.getInstance().options.renderDistance().set(renderDistance));
     }
     
     @Inject(method = "runTick", at = @At("HEAD"))
     private void onRenderFrame(boolean renderLevel, CallbackInfo ci) {
         Minecraft client = (Minecraft) (Object) this;
-        if (client.options != null) {
-            RenderDistanceManager.syncCurrentRenderDistance(client.options.renderDistance().get());
-        }
+        RenderDistanceManager.syncCurrentRenderDistance(client.options.renderDistance().get());
         RenderDistanceManager.onFrame();
     }
 }
