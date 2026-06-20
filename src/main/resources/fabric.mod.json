@@ -1,0 +1,51 @@
+{
+	"schemaVersion": 1,
+	"id": "optidum",
+	"version": "${version}",
+	"name": "Optidum",
+	"description": "Comprehensive performance optimization mod for Minecraft, with enhanced Sodium compatibility",
+	"authors": [
+		"BudgetGamer1503"
+	],
+	"contact": {
+		"homepage": "https://github.com/BudgetGamer1503/optidum",
+		"sources": "https://github.com/BudgetGamer1503/optidum",
+		"issues": "https://github.com/BudgetGamer1503/optidum/issues"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/optidum/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"com.budgetgamer1503.Optidum"
+		],
+		"client": [
+			"com.budgetgamer1503.client.OptidumClient"
+		]
+	},
+	"mixins": [
+		"optidum.mixins.json",
+		{
+			"config": "optidum.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.6",
+		"minecraft": "~26.1.1",
+		"java": ">=25",
+		"fabric-api": "*",
+		"sodium": ">=0.6.0"
+	},
+	"suggests": {
+		"cloth-config": ">=13.0.121",
+		"modmenu": ">=9.0.0"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/example"
+			}
+		}
+	}
+}
