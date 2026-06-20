@@ -22,6 +22,7 @@ public class RenderDistanceManager {
     private static int preferredRenderDistance = -1;
     private static int lastAppliedRenderDistance = -1;
     private static long lastAdjustmentTime = 0;
+    private static long lastLagSpikeAdjustmentTime = 0;
     private static final long ADJUSTMENT_COOLDOWN_MS = 30000; // 30 seconds
     
     // Smoothing
@@ -76,6 +77,7 @@ public class RenderDistanceManager {
             if (frameTime > 0) {
                 double fps = 1000.0 / frameTime;
                 updateFPSSample(fps);
+                handleLagSpike(config, frameTime, currentTime);
             }
         }
         lastFrameTime = currentTime;
@@ -85,6 +87,32 @@ public class RenderDistanceManager {
             adjustRenderDistance();
             lastAdjustmentTime = currentTime;
         }
+    }
+    
+    private static void handleLagSpike(OptidumConfig config, long frameTime, long currentTime) {
+        if (!Optidum.isSodiumLoaded || !config.reduceRenderDistanceOnLagSpike || currentRenderDistance < 0) {
+            return;
+        }
+        if (frameTime < config.lagSpikeFrameTimeMs) {
+            return;
+        }
+        if (currentTime - lastLagSpikeAdjustmentTime < config.lagSpikeCooldownSeconds * 1000L) {
+            return;
+        }
+        
+        int newRenderDistance = Math.max(config.minRenderDistance, currentRenderDistance - 1);
+        if (newRenderDistance == currentRenderDistance) {
+            return;
+        }
+        
+        LOGGER.debug("Lag spike detected ({} ms frame), reducing render distance from {} to {}",
+            frameTime, currentRenderDistance, newRenderDistance);
+        currentRenderDistance = newRenderDistance;
+        lastLagSpikeAdjustmentTime = currentTime;
+        consecutiveLowFpsCount = 0;
+        consecutiveHighFpsCount = 0;
+        frameTimes.clear();
+        applyRenderDistance();
     }
     
     private static void updateFPSSample(double fps) {
@@ -213,6 +241,7 @@ public class RenderDistanceManager {
         smoothedFPS = 60.0;
         lastFrameTime = 0;
         lastAdjustmentTime = 0;
+        lastLagSpikeAdjustmentTime = 0;
         consecutiveLowFpsCount = 0;
         consecutiveHighFpsCount = 0;
     }
