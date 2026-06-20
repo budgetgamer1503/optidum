@@ -8,9 +8,10 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
+@SuppressWarnings("unused")
 public class OptidumConfigScreen extends Screen {
     private final Screen parent;
-    private OptidumConfig config;
+    private final OptidumConfig config;
     
     private EditBox entityTickDistanceField;
     private EditBox entityTickReductionField;
@@ -217,7 +218,6 @@ public class OptidumConfigScreen extends Screen {
             .create(rightCol, y, BUTTON_WIDTH, BUTTON_HEIGHT,
                 Component.literal("Performance Log"),
                 (btn, val) -> config.logPerformanceMetrics = val));
-        y += spacing + 20;
         
         // === Save / Cancel / Done ===
         addRenderableWidget(Button.builder(
@@ -239,18 +239,26 @@ public class OptidumConfigScreen extends Screen {
     }
     
     private void saveConfig() {
-        try { config.entityTickDistance = Integer.parseInt(entityTickDistanceField.getValue()); } catch (NumberFormatException e) {}
-        try { config.entityTickReductionFactor = Integer.parseInt(entityTickReductionField.getValue()); } catch (NumberFormatException e) {}
-        try { config.smartChunkLoadDistance = Integer.parseInt(chunkLoadDistanceField.getValue()); } catch (NumberFormatException e) {}
-        try { config.targetFPS = Integer.parseInt(targetFPSField.getValue()); } catch (NumberFormatException e) {}
-        try { config.minRenderDistance = Integer.parseInt(minRenderDistanceField.getValue()); } catch (NumberFormatException e) {}
-        try { config.maxRenderDistance = Integer.parseInt(maxRenderDistanceField.getValue()); } catch (NumberFormatException e) {}
-        try { config.packetCompressionThreshold = Integer.parseInt(packetCompressionField.getValue()); } catch (NumberFormatException e) {}
-        try { config.entityPoolSize = Integer.parseInt(entityPoolSizeField.getValue()); } catch (NumberFormatException e) {}
+        config.entityTickDistance = parseInt(entityTickDistanceField, config.entityTickDistance);
+        config.entityTickReductionFactor = parseInt(entityTickReductionField, config.entityTickReductionFactor);
+        config.smartChunkLoadDistance = parseInt(chunkLoadDistanceField, config.smartChunkLoadDistance);
+        config.targetFPS = parseInt(targetFPSField, config.targetFPS);
+        config.minRenderDistance = parseInt(minRenderDistanceField, config.minRenderDistance);
+        config.maxRenderDistance = parseInt(maxRenderDistanceField, config.maxRenderDistance);
+        config.packetCompressionThreshold = parseInt(packetCompressionField, config.packetCompressionThreshold);
+        config.entityPoolSize = parseInt(entityPoolSizeField, config.entityPoolSize);
         
         config.validate();
         ConfigManager.saveConfig();
         ConfigManager.reloadConfig();
+    }
+    
+    private int parseInt(EditBox field, int fallback) {
+        try {
+            return Integer.parseInt(field.getValue());
+        } catch (NumberFormatException ignored) {
+            return fallback;
+        }
     }
     
     @Override

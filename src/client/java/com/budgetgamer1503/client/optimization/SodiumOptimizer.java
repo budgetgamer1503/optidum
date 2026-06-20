@@ -142,10 +142,6 @@ public final class SodiumOptimizer {
 
     private static boolean tuneMinecraftVideoOptions(OptidumConfig config) {
         Minecraft client = Minecraft.getInstance();
-        if (client == null || client.options == null) {
-            return false;
-        }
-
         boolean changed = false;
         changed |= setOption(client.options, "biomeBlendRadius", 1);
         changed |= setOption(client.options, "entityDistanceScaling", 0.75D);
