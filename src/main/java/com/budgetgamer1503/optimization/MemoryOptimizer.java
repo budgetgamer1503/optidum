@@ -9,6 +9,7 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@SuppressWarnings({"unused", "FieldCanBeLocal", "FieldMayBeFinal"})
 public class MemoryOptimizer {
     private static final Logger LOGGER = LoggerFactory.getLogger("Optidum/MemoryOptimizer");
     

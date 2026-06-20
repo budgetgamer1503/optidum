@@ -9,10 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.UUID;
 
+import org.spongepowered.asm.mixin.Unique;
+
 @Mixin(Connection.class)
 public class ConnectionMixin {
     
     // Unique ID per connection for tracking
+    @Unique
     private final UUID optidum$connectionId = UUID.randomUUID();
     
     @Inject(method = "handleDisconnection", at = @At("HEAD"))

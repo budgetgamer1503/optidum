@@ -1,6 +1,5 @@
 package com.budgetgamer1503.optimization;
 
-import com.budgetgamer1503.Optidum;
 import com.budgetgamer1503.config.ConfigManager;
 import com.budgetgamer1503.config.OptidumConfig;
 import net.minecraft.core.BlockPos;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+@SuppressWarnings("unused")
 public class ChunkOptimizer {
     private static final Logger LOGGER = LoggerFactory.getLogger("Optidum/ChunkOptimizer");
     

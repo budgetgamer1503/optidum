@@ -1,5 +1,6 @@
 package com.budgetgamer1503.config;
 
+@SuppressWarnings("unused")
 public class OptidumConfig {
     
     // Entity Tick Optimization

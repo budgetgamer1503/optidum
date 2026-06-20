@@ -5,12 +5,10 @@ import com.budgetgamer1503.config.OptidumConfig;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ambient.AmbientCreature;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.AABB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +62,7 @@ public class EntityTickOptimizer {
         return false;
     }
     
+    @SuppressWarnings("resource")
     private static double getDistanceToNearestPlayerSquared(Entity entity) {
         if (!(entity.level() instanceof ServerLevel serverLevel)) {
             return 0.0;

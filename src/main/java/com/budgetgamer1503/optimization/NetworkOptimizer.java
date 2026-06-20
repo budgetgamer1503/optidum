@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+@SuppressWarnings("unused")
 public class NetworkOptimizer {
     private static final Logger LOGGER = LoggerFactory.getLogger("Optidum/NetworkOptimizer");
     
@@ -55,7 +56,7 @@ public class NetworkOptimizer {
         return data;
     }
     
-    public static byte[] processIncomingPacket(byte[] data, UUID connectionId) {
+    public static byte[] processIncomingPacket(byte[] data, UUID ignoredConnectionId) {
         OptidumConfig config = ConfigManager.getConfig();
         if (!config.networkOptimization) {
             return data;

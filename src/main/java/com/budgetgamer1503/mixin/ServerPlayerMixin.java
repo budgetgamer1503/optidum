@@ -2,7 +2,6 @@ package com.budgetgamer1503.mixin;
 
 import com.budgetgamer1503.optimization.ChunkOptimizer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerCommonPacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
