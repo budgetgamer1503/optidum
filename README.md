@@ -85,4 +85,4 @@ For best results:
 
 ## License
 
-Optidum is licensed under CC0-1.0. See `LICENSE` for details.
+Optidum is licensed under CC-BY-4.0. See `LICENSE` for details.

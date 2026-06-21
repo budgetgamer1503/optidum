@@ -12,7 +12,7 @@
 		"sources": "https://github.com/BudgetGamer1503/optidum",
 		"issues": "https://github.com/BudgetGamer1503/optidum/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "CC-BY-4.0",
 	"icon": "assets/optidum/icon.png",
 	"environment": "client",
 	"entrypoints": {
