@@ -16,10 +16,10 @@ public class MemoryOptimizer {
     // Object pools
     private static final Map<Class<?>, ObjectPool<?>> objectPools = new HashMap<>();
     
-    // Garbage collection tracking
-    private static long lastGCTime = 0;
-    private static long gcCount = 0;
-    private static final long GC_INTERVAL_MS = 30000; // 30 seconds minimum between GC suggestions
+    // Memory pressure tracking
+    private static long lastMemoryPressureLogTime = 0;
+    private static long memoryPressureEvents = 0;
+    private static final long MEMORY_PRESSURE_LOG_INTERVAL_MS = 30000; // 30 seconds minimum between alerts
     
     // Memory usage tracking
     private static final Runtime runtime = Runtime.getRuntime();
@@ -86,16 +86,16 @@ public class MemoryOptimizer {
         }
     }
     
-    public static void optimizeGarbageCollection() {
+    public static void monitorMemoryPressure() {
         OptidumConfig config = ConfigManager.getConfig();
-        if (!config.memoryOptimization || !config.enableGarbageCollectionOptimization) {
+        if (!config.memoryOptimization || !config.enableMemoryPressureMonitoring) {
             return;
         }
         
         long currentTime = System.currentTimeMillis();
         
-        // Don't suggest GC too frequently
-        if (currentTime - lastGCTime < GC_INTERVAL_MS) {
+        // Don't log pressure warnings too frequently
+        if (currentTime - lastMemoryPressureLogTime < MEMORY_PRESSURE_LOG_INTERVAL_MS) {
             return;
         }
         
@@ -107,14 +107,11 @@ public class MemoryOptimizer {
         
         double usagePercentage = (double) usedMemory / maxMemory;
         
-        // If memory usage is high, suggest GC
         if (usagePercentage > 0.85) { // 85% usage
-            LOGGER.debug("High memory usage detected ({}%), suggesting garbage collection", 
-                (int)(usagePercentage * 100));
-            
-            System.gc();
-            gcCount++;
-            lastGCTime = currentTime;
+            LOGGER.warn("High memory usage detected ({}%), monitoring memory pressure and object allocation",
+                (int) (usagePercentage * 100));
+            memoryPressureEvents++;
+            lastMemoryPressureLogTime = currentTime;
         }
     }
     
@@ -149,8 +146,8 @@ public class MemoryOptimizer {
     public static void logStats() {
         OptidumConfig config = ConfigManager.getConfig();
         if (config.logPerformanceMetrics) {
-            LOGGER.info("Memory optimizer stats: {} object pools, {} GC suggestions",
-                objectPools.size(), gcCount);
+            LOGGER.info("Memory optimizer stats: {} object pools, {} memory pressure alerts",
+                objectPools.size(), memoryPressureEvents);
             
             for (Map.Entry<Class<?>, ObjectPool<?>> entry : objectPools.entrySet()) {
                 ObjectPool<?> pool = entry.getValue();

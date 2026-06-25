@@ -19,9 +19,9 @@ public class MinecraftServerMixin {
         // Update global tick counter for entity tick optimization
         EntityTickOptimizer.onServerTick();
         
-        // Periodically check memory and optimize GC
+        // Periodically check memory usage and report memory pressure without forcing GC
         MemoryOptimizer.checkMemoryUsage();
-        MemoryOptimizer.optimizeGarbageCollection();
+        MemoryOptimizer.monitorMemoryPressure();
         EntityTickOptimizer.logOptimizationStats();
         MemoryOptimizer.logStats();
         NetworkOptimizer.logStats();

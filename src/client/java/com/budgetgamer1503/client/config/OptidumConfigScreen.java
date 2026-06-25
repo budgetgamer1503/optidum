@@ -107,19 +107,19 @@ public class OptidumConfigScreen extends Screen {
             "Keeps repeated packet data available for reuse.");
         y += SPACING + 10;
         
-        y = addSection(leftCol, y, "Memory Optimization", "Monitors memory pressure and optional object pools.");
+        y = addSection(leftCol, y, "Memory Monitoring", "Monitors memory pressure and optional object pools.");
         addToggle(leftCol, y, "Enabled", config.memoryOptimization,
             value -> config.memoryOptimization = value,
-            "Turns memory monitoring and GC helpers on or off.");
+            "Turns memory monitoring and optional object pools on or off.");
         entityPoolSizeField = addNumberField(rightCol, y, "Pool Size", config.entityPoolSize,
             "Maximum objects per internal object pool.");
         y += SPACING;
         addToggle(leftCol, y, "Entity Pooling", config.entityPooling,
             value -> config.entityPooling = value,
             "Allows Optidum object pools where supported.");
-        addToggle(rightCol, y, "GC Optimization", config.enableGarbageCollectionOptimization,
-            value -> config.enableGarbageCollectionOptimization = value,
-            "Requests garbage collection only when memory usage is very high.");
+        addToggle(rightCol, y, "Memory Alerts", config.enableMemoryPressureMonitoring,
+            value -> config.enableMemoryPressureMonitoring = value,
+            "Logs a warning when memory usage is very high.");
         y += SPACING + 10;
         
         y = addSection(leftCol, y, "Render Distance Optimization", "Adjusts render distance carefully to protect FPS.");

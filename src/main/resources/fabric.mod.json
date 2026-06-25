@@ -3,7 +3,7 @@
 	"id": "optidum",
 	"version": "${version}",
 	"name": "Optidum",
-	"description": "Comprehensive performance optimization mod for Minecraft, with enhanced Sodium compatibility",
+	"description": "Client-side Fabric addon for Sodium-related settings, frame-time spike handling, and integrated-server helper systems",
 	"authors": [
 		"BudgetGamer1503"
 	],
@@ -35,7 +35,7 @@
 		"minecraft": "~26.1.1",
 		"java": ">=25",
 		"fabric-api": "*",
-		"sodium": ">=0.6.0"
+		"sodium": ">=0.8.0"
 	},
 	"suggests": {
 		"cloth-config": ">=13.0.121",

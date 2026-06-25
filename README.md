@@ -1,6 +1,6 @@
 # Optidum
 
-Optidum is a client-side Fabric performance addon built around Sodium. It requires Sodium and applies extra FPS-focused tuning, lag-spike protection, and configurable optimizations for smoother gameplay.
+Optidum is a client-side Fabric addon built around Sodium. It adds configurable Sodium-related settings, a Video Settings configuration screen, render-distance handling for large frame-time spikes, and several integrated-server helper systems.
 
 ## Version
 
@@ -8,18 +8,18 @@ Current version: 1.2
 
 ## What It Does
 
-- Requires Sodium so Optidum can target Sodium's rendering and chunk pipeline.
-- Applies a Sodium performance profile for better FPS and fewer stutters.
-- Reduces heavy visual settings such as clouds, particles, smooth lighting, biome blending, and entity distance scaling when performance mode is enabled.
-- Detects large frame-time spikes and can temporarily reduce render distance to reduce chunk-related lag spikes.
-- Keeps render-distance changes conservative so worlds do not constantly reload chunks.
-- Adds an Optidum config button directly inside Minecraft's Video Settings screen.
+- Requires Sodium so Optidum can write Sodium-related configuration values.
+- Applies an optional Sodium settings profile focused on lowering some rendering costs.
+- Reduces selected visual settings such as clouds, particles, smooth lighting, biome blending, and entity distance scaling when performance mode is enabled.
+- Detects large frame-time spikes and can temporarily reduce render distance after a cooldown.
+- Keeps render-distance changes conservative to avoid frequent chunk reloads.
+- Adds an Optidum config button inside Minecraft's Video Settings screen.
 
 ## Main Features
 
 ### Sodium Performance Profile
 
-Optidum writes a performance-oriented Sodium config profile on startup. The profile focuses on:
+Optidum can write a Sodium config profile on startup. The profile changes settings related to:
 
 - Deferred chunk updates
 - Entity culling
@@ -30,36 +30,36 @@ Optidum writes a performance-oriented Sodium config profile on startup. The prof
 - Chunk multidraw
 - Lower CPU render-ahead pressure
 
-### Lag Spike Reduction
+### Frame-Time Spike Handling
 
-Optidum monitors frame time. When a large spike is detected, it can lower render distance by one step after a cooldown instead of constantly changing it every few seconds.
+Optidum monitors frame time. When a large spike is detected, it can lower render distance by one step after a cooldown instead of changing it continuously.
 
 ### Video Settings Menu
 
 Open Minecraft's Video Settings screen and press the Optidum button to access the Optidum configuration menu.
 
-### Server-Side Integrated Optimizations
+### Integrated-Server Helpers
 
-Optidum also includes optimizers for integrated-world gameplay:
+Optidum also includes helper systems for integrated-world gameplay:
 
 - Entity tick reduction based on player distance
 - Chunk tracking and cache helpers
 - Network packet helper logic
-- Memory and garbage collection monitoring
+- Memory usage and memory pressure monitoring
 
 ## Requirements
 
 - Minecraft 26.1.1
 - Fabric Loader 0.18.6 or newer
 - Fabric API
-- Sodium 0.6.0 or newer
+- Sodium 0.8.0 or newer
 - Java 25 or newer
 
 ## Installation
 
 1. Install Fabric Loader for Minecraft 26.1.1.
 2. Install Fabric API.
-3. Install Sodium 0.6.0 or newer.
+3. Install Sodium 0.8.0 or newer.
 4. Place the Optidum jar in your `mods` folder.
 5. Launch Minecraft and open Video Settings to configure Optidum.
 
@@ -80,7 +80,7 @@ For best results:
 - Keep Sodium installed and updated.
 - Use the Optidum button in Video Settings to tune target FPS and render-distance limits.
 - Avoid setting max render distance too high if your world reloads chunks frequently.
-- Leave lag-spike render-distance reduction enabled on lower-end systems.
+- Leave frame-time spike render-distance handling enabled on lower-end systems.
 
 
 ## License

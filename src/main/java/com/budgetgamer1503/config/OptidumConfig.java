@@ -27,7 +27,7 @@ public class OptidumConfig {
     public boolean memoryOptimization = true;
     public boolean entityPooling = true;
     public int entityPoolSize = 100;
-    public boolean enableGarbageCollectionOptimization = true;
+    public boolean enableMemoryPressureMonitoring = true;
     
     // Render Distance Optimization
     public boolean renderDistanceOptimization = true;
