@@ -4,7 +4,7 @@ Optidum is a client-side Fabric addon built around Sodium. It adds configurable 
 
 ## Version
 
-Current version: 1.2
+Current version: 1.3
 
 ## What It Does
 
