@@ -75,7 +75,7 @@ public class OptidumClient implements ClientModInitializer {
     
     private void openConfigScreen(Minecraft client, Screen parent) {
         LOGGER.info("Opening Optidum config screen from {}", parent.getClass().getName());
-        client.submit(() -> client.setScreen(new OptidumConfigScreen(parent)));
+        client.submit(() -> client.gui.setScreen(new OptidumConfigScreen(parent)));
     }
     
     @SuppressWarnings("unchecked")

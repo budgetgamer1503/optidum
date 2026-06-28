@@ -209,19 +209,19 @@ public class OptidumConfigScreen extends Screen {
             Component.literal("Save & Close"),
             btn -> {
                 saveConfig();
-                this.minecraft.setScreen(parent);
+                this.minecraft.gui.setScreen(parent);
             }).bounds(this.width / 2 - 155, this.height - 30, 100, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal("Saves Optidum settings and returns to Video Settings.")))
             .build());
         addRenderableWidget(Button.builder(
             Component.literal("Cancel"),
-            btn -> this.minecraft.setScreen(parent))
+            btn -> this.minecraft.gui.setScreen(parent))
             .bounds(this.width / 2 - 50, this.height - 30, 100, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal("Returns without saving text field edits.")))
             .build());
         addRenderableWidget(Button.builder(
             Component.literal("Done"),
-            btn -> this.minecraft.setScreen(parent))
+            btn -> this.minecraft.gui.setScreen(parent))
             .bounds(this.width / 2 + 55, this.height - 30, 100, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal("Returns to Video Settings.")))
             .build());
@@ -301,6 +301,6 @@ public class OptidumConfigScreen extends Screen {
     
     @Override
     public void onClose() {
-        this.minecraft.setScreen(parent);
+        this.minecraft.gui.setScreen(parent);
     }
 }
