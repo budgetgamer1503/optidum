@@ -11,8 +11,6 @@
 - **Netty Packet Flush Consolidation**: Consolidates small, rapid Netty network packets into batched flushes, cutting socket syscall overhead and reducing ping jitter.
 - **Low-Overhead Memory Management**: Monitors JVM heap pressure on a 30-second interval, freeing transient caches and clearing level caches on dimension changes to prevent GC stutter and memory leaks.
 - **Dynamic FPS & Inactive Power Saver**: Automatically throttles framerate to a configurable cap (5–60 FPS) when the window is unfocused (Alt-Tabbed) or minimized, cutting GPU power draw, heat, and fan noise. Seamlessly yields to the `dynamic_fps` mod if installed.
-- **Sodium Video Settings Integration**: Adds a native **Optidum** options tab directly into Sodium's Video Settings screen using the official **Sodium Config Screen API** (`net.caffeinemc.mods.sodium.api.config.ConfigEntryPoint`).
-- **Clean Fallback GUI**: Provides a modern, native `OptionsSubScreen` with keyboard navigation, mouse wheel scrolling, and ModMenu integration for non-Sodium environments.
 
 ---
 
