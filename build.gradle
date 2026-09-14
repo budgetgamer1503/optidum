@@ -31,6 +31,8 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	implementation files("libs/sodium-api-26.2.jar")
+	clientImplementation files("libs/sodium-api-26.2.jar")
+	clientImplementation sourceSets.main.output
 }
 
 processResources {
