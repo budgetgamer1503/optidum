@@ -3,7 +3,8 @@
 	"package": "com.budgetgamer1503.client.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"MinecraftClientMixin"
+		"MinecraftClientMixin",
+		"FramerateLimitTrackerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

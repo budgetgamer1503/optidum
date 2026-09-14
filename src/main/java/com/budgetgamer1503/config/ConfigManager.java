@@ -14,9 +14,7 @@ public class ConfigManager {
     private static final Logger LOGGER = LoggerFactory.getLogger("Optidum/Config");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     
-    // Lazy-initialized to avoid class-load-time FabricLoader calls
     private static Path configPath = null;
-    
     private static OptidumConfig config;
     
     private static Path getConfigPath() {

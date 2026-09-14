@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-    
+
     @Inject(method = "tick", at = @At("HEAD"))
-    private void onPlayerTick(CallbackInfo ci) {
+    private void optidum$onPlayerTick(CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer) (Object) this;
-        ChunkOptimizer.updatePlayerPosition(self);
+        ChunkOptimizer.updatePlayer(self);
     }
 }

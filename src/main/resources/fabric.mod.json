@@ -3,7 +3,7 @@
 	"id": "optidum",
 	"version": "${version}",
 	"name": "Optidum",
-	"description": "Client-side Fabric addon for Sodium-related settings, frame-time spike handling, and integrated-server helper systems",
+	"description": "Companion optimization mod for Sodium featuring entity AI throttling, smart chunk prioritization, Netty packet batching, and dynamic FPS",
 	"authors": [
 		"BudgetGamer1503"
 	],
@@ -21,6 +21,9 @@
 		],
 		"client": [
 			"com.budgetgamer1503.client.OptidumClient"
+		],
+		"sodium:config_api_user": [
+			"com.budgetgamer1503.client.sodium.OptidumSodiumConfig"
 		]
 	},
 	"mixins": [
@@ -38,11 +41,13 @@
 		"sodium": ">=0.8.0"
 	},
 	"suggests": {
-		"cloth-config": ">=13.0.121",
+		"dynamic_fps": "*",
+		"titanium": "*",
 		"modmenu": ">=9.0.0"
 	},
 	"custom": {
 		"modmenu": {
+			"parent": "sodium",
 			"links": {
 				"modmenu.discord": "https://discord.gg/ypPR9Tynqb"
 			}

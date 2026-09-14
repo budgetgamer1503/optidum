@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerChunkCache.class)
 public class ServerChunkCacheMixin {
-    
+
     @Inject(method = "tick", at = @At("HEAD"))
-    private void onChunkCacheTick(CallbackInfo ci) {
-        ChunkOptimizer.logStats();
+    private void optidum$onChunkCacheTick(CallbackInfo ci) {
+        ChunkOptimizer.tick();
     }
 }

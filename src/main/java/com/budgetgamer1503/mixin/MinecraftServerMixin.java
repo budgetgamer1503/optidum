@@ -2,7 +2,6 @@ package com.budgetgamer1503.mixin;
 
 import com.budgetgamer1503.optimization.EntityTickOptimizer;
 import com.budgetgamer1503.optimization.MemoryOptimizer;
-import com.budgetgamer1503.optimization.NetworkOptimizer;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,17 +12,10 @@ import java.util.function.BooleanSupplier;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin {
-    
+
     @Inject(method = "tickServer", at = @At("HEAD"))
-    private void onServerTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        // Update global tick counter for entity tick optimization
+    private void optidum$onServerTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         EntityTickOptimizer.onServerTick();
-        
-        // Periodically check memory usage and report memory pressure without forcing GC
-        MemoryOptimizer.checkMemoryUsage();
-        MemoryOptimizer.monitorMemoryPressure();
-        EntityTickOptimizer.logOptimizationStats();
-        MemoryOptimizer.logStats();
-        NetworkOptimizer.logStats();
+        MemoryOptimizer.periodicCheck();
     }
 }
