@@ -52,7 +52,7 @@ Optidum stores its configuration at:
 config/optidum.json
 ```
 
-All settings can be adjusted in-game directly through **Options > Video Settings > Optidum** or via ModMenu.
+All settings can be adjusted in-game directly through **Options > Video Settings > Optidum**
 
 ---
 
