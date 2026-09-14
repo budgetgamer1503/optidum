@@ -168,7 +168,6 @@ public final class SodiumOptimizer {
                 return value;
             }
         } catch (Exception ignored) {
-            // Some video options move between Minecraft versions; skip unavailable values.
         }
 
         return null;

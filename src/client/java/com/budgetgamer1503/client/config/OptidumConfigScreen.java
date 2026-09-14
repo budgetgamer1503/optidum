@@ -18,7 +18,6 @@ public class OptidumConfigScreen extends OptionsSubScreen {
     protected void addOptions() {
         OptidumConfig config = ConfigManager.getConfig();
 
-        // Section: Entity AI
         this.list.addHeader(Component.literal("Entity AI Optimization"));
         this.list.addSmall(
             OptionInstance.createBoolean(
@@ -49,7 +48,6 @@ public class OptidumConfigScreen extends OptionsSubScreen {
             )
         );
 
-        // Section: Chunk Loading
         this.list.addHeader(Component.literal("Chunk Loading Optimization"));
         this.list.addSmall(
             OptionInstance.createBoolean(
@@ -80,7 +78,6 @@ public class OptidumConfigScreen extends OptionsSubScreen {
             )
         );
 
-        // Section: Network & Memory
         this.list.addHeader(Component.literal("Network & Memory Optimization"));
         this.list.addSmall(
             OptionInstance.createBoolean(
@@ -97,7 +94,6 @@ public class OptidumConfigScreen extends OptionsSubScreen {
             )
         );
 
-        // Section: Sodium Profile
         this.list.addHeader(Component.literal("Sodium Integration"));
         this.list.addSmall(
             OptionInstance.createBoolean(

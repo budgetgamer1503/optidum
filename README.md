@@ -1,4 +1,4 @@
-# Optidum
+# Optidum v1.5
 
 **Optidum** is a performance optimization mod for Minecraft Fabric designed to synergize cleanly with **Sodium** and **Titanium**.
 
@@ -39,7 +39,7 @@ Optidum is designed to be fully compatible alongside [Titanium](https://cursefor
 - **Minecraft**: `26.2`
 - **Fabric Loader**: `>=0.19.3`
 - **Fabric API**
-- **Sodium**: `>=0.8.0` (Optional but recommended for full Video Settings GUI integration)
+- **Sodium**: `>=0.8.0` (Required dependency)
 - **Java**: `25` or newer
 
 ---
@@ -58,4 +58,4 @@ All settings can be adjusted in-game directly through **Options > Video Settings
 
 ## License
 
-Optidum is licensed under CC-BY-4.0. See `LICENSE` for details.
+Optidum is licensed under the GNU Lesser General Public License v3.0 (LGPL-3.0). See `LICENSE` for details.

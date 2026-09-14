@@ -22,7 +22,6 @@ public class OptidumSodiumConfig implements ConfigEntryPoint {
             OptionPageBuilder page = builder.createOptionPage();
             page.setName(Component.literal("Optidum"));
 
-            // 1. Entity AI & Pathfinding
             OptionGroupBuilder aiGroup = builder.createOptionGroup();
             aiGroup.setName(Component.literal("Entity AI Optimization"));
             addToggle(builder, aiGroup, "entity_ai_throttle", "Entity AI Throttle",
@@ -39,7 +38,6 @@ public class OptidumSodiumConfig implements ConfigEntryPoint {
                 cfg -> cfg.optimizeAmbientEntities, (cfg, val) -> cfg.optimizeAmbientEntities = val, true);
             page.addOptionGroup(aiGroup);
 
-            // 2. Chunk Optimization
             OptionGroupBuilder chunkGroup = builder.createOptionGroup();
             chunkGroup.setName(Component.literal("Chunk Loading Optimization"));
             addToggle(builder, chunkGroup, "chunk_optimization", "Chunk Optimization",
@@ -53,7 +51,6 @@ public class OptidumSodiumConfig implements ConfigEntryPoint {
                 cfg -> cfg.preventBorderChurn, (cfg, val) -> cfg.preventBorderChurn = val, true);
             page.addOptionGroup(chunkGroup);
 
-            // 3. Network Optimization
             OptionGroupBuilder netGroup = builder.createOptionGroup();
             netGroup.setName(Component.literal("Network Optimization"));
             addToggle(builder, netGroup, "network_optimization", "Network Optimization",
@@ -64,7 +61,6 @@ public class OptidumSodiumConfig implements ConfigEntryPoint {
                 cfg -> cfg.packetBatching, (cfg, val) -> cfg.packetBatching = val, true);
             page.addOptionGroup(netGroup);
 
-            // 4. Memory & Power
             OptionGroupBuilder memGroup = builder.createOptionGroup();
             memGroup.setName(Component.literal("Memory & Dynamic FPS"));
             addToggle(builder, memGroup, "dynamic_fps", "Dynamic FPS (Inactive Throttle)",
@@ -78,7 +74,6 @@ public class OptidumSodiumConfig implements ConfigEntryPoint {
                 cfg -> cfg.dimensionCacheCleanup, (cfg, val) -> cfg.dimensionCacheCleanup = val, true);
             page.addOptionGroup(memGroup);
 
-            // 5. Sodium Profile Sync
             OptionGroupBuilder sodGroup = builder.createOptionGroup();
             sodGroup.setName(Component.literal("Sodium Optimization Profile"));
             addToggle(builder, sodGroup, "defer_chunks", "Always Defer Chunk Updates",
@@ -94,7 +89,7 @@ public class OptidumSodiumConfig implements ConfigEntryPoint {
 
             ModOptionsBuilder modOptions = builder.registerModOptions(Optidum.MOD_ID);
             modOptions.setName("Optidum");
-            modOptions.setVersion("1.4");
+            modOptions.setVersion("1.5");
             try {
                 modOptions.setIcon(Identifier.fromNamespaceAndPath(Optidum.MOD_ID, "icon.png"));
             } catch (Throwable ignored) {}

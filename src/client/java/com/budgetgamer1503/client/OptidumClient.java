@@ -41,7 +41,6 @@ public class OptidumClient implements ClientModInitializer {
 
     private void registerVanillaVideoSettingsButton() {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            // Only add fallback button on vanilla VideoSettingsScreen if Sodium GUI is not replacing it
             if (!(screen instanceof VideoSettingsScreen)) {
                 return;
             }

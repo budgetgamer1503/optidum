@@ -15,7 +15,6 @@ public class FramerateLimitTrackerMixin {
 
     @Inject(method = "getFramerateLimit", at = @At("HEAD"), cancellable = true)
     private void optidum$throttleUnfocusedFps(CallbackInfoReturnable<Integer> cir) {
-        // If dynamic_fps mod is installed, yield to it to avoid conflicts
         if (FabricLoader.getInstance().isModLoaded("dynamic_fps")) {
             return;
         }
