@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api 'com.google.code.gson:gson:2.10.1'
+    api 'org.slf4j:slf4j-api:2.0.12'
+    compileOnly 'net.fabricmc:fabric-loader:0.15.11'
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+}
+
+jar {
+    archiveBaseName = 'Optidum-common'
+}

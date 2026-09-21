@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation project(':common')
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    compileOnly 'net.fabricmc:fabric-loader:0.15.11'
+    compileOnly files('../libs/sodium-api-26.2.jar')
+}
+
+jar {
+    archiveBaseName = 'Optidum-mc26.2'
+    from {
+        project(':common').sourceSets.main.output
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.budgetgamer1503.v1194.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EntityMixin",
+    "MinecraftServerMixin",
+    "ServerPlayerMixin",
+    "ServerChunkCacheMixin",
+    "ConnectionMixin"
+  ],
+  "client": [
+    "MinecraftClientMixin",
+    "FramerateLimitTrackerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "overwrites": {
+    "requireAnnotations": false
+  }
+}

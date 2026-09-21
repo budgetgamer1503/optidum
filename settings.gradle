@@ -1,11 +1,22 @@
 pluginManagement {
-	repositories {
-		maven {
-			name = 'Fabric'
-			url = 'https://maven.fabricmc.net/'
-		}
-		mavenCentral()
-		gradlePluginPortal()
-	}
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+    }
 }
-rootProject.name = 'optidum'
+
+rootProject.name = 'Optidum'
+
+include 'common'
+include 'mc1165'
+include 'mc1171'
+include 'mc1182'
+include 'mc1194'
+include 'mc1201'
+include 'mc1211'
+include 'mc262'
+include 'mc263'

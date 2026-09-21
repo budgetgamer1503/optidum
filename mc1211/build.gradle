@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation project(':common')
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    compileOnly 'net.fabricmc:fabric-loader:0.15.11'
+
+}
+
+jar {
+    archiveBaseName = 'Optidum-mc1.21.1'
+    from {
+        project(':common').sourceSets.main.output
+    }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "optidum",
+  "version": "1.6",
+  "name": "Optidum",
+  "description": "Companion optimization mod for Sodium featuring entity AI throttling, smart chunk prioritization, Netty packet batching, and dynamic FPS",
+  "authors": [
+    "BudgetGamer1503"
+  ],
+  "contact": {
+    "homepage": "https://github.com/BudgetGamer1503/optidum",
+    "sources": "https://github.com/BudgetGamer1503/optidum",
+    "issues": "https://github.com/BudgetGamer1503/optidum/issues"
+  },
+  "license": "LGPL-3.0",
+  "icon": "assets/optidum/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.budgetgamer1503.v1194.Optidummc1194"
+    ],
+    "client": [
+      "com.budgetgamer1503.v1194.client.OptidumClientmc1194"
+    ]
+  },
+  "mixins": [
+    "optidum.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": ">=1.19.0 <=1.19.4",
+    "sodium": ">=0.2.0"
+  },
+  "suggests": {
+    "titanium": "*",
+    "dynamic_fps": "*",
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "sodium",
+      "links": {
+        "modmenu.discord": "https://discord.gg/ypPR9Tynqb"
+      }
+    }
+  }
+}
