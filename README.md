@@ -32,24 +32,6 @@ Optidum is designed to be fully compatible alongside [Titanium](https://cursefor
 
 ---
 
-## Supported Minecraft Versions & Generated Artifacts
-
-Optidum v1.6 provides dedicated build modules and independent distribution JARs for each supported Minecraft generation:
-
-| Subproject | Minecraft Target | Fabric Range | Output Distribution JAR |
-| --- | --- | --- | --- |
-| **`:mc1165`** | `1.16.5` | `>=1.16.0 <=1.16.5` | `mc1165/build/libs/Optidum-mc1.16.5-1.6.jar` |
-| **`:mc1171`** | `1.17.1` | `>=1.17.0 <=1.17.1` | `mc1171/build/libs/Optidum-mc1.17.1-1.6.jar` |
-| **`:mc1182`** | `1.18.2` | `>=1.18.0 <=1.18.2` | `mc1182/build/libs/Optidum-mc1.18.2-1.6.jar` |
-| **`:mc1194`** | `1.19.4` | `>=1.19.0 <=1.19.4` | `mc1194/build/libs/Optidum-mc1.19.4-1.6.jar` |
-| **`:mc1201`** | `1.20.1` | `>=1.20.0 <=1.20.1` | `mc1201/build/libs/Optidum-mc1.20.1-1.6.jar` |
-| **`:mc1211`** | `1.21.1` | `>=1.21.0 <=1.21.1` | `mc1211/build/libs/Optidum-mc1.21.1-1.6.jar` |
-| **`:mc262`** | `26.2` | `>=26.2 <=26.2.99` | `mc262/build/libs/Optidum-mc26.2-1.6.jar` |
-| **`:mc263`** | `26.3` | `>=26.3 <=26.3.99` | `mc263/build/libs/Optidum-mc26.3-1.6.jar` |
-| **`:common`** | Shared Core | Core Library | `common/build/libs/Optidum-common-1.6.jar` |
-
----
-
 ## Requirements
 
 - **Fabric Loader**: `>=0.14.0` (or newer)
@@ -71,15 +53,6 @@ All settings can be adjusted in-game directly through **Options > Video Settings
 
 ---
 
-## Building from Source
-
-To compile all 8 version JARs and run the shared test suite:
-
-```bash
-./gradlew build
-```
-
----
 
 ## License
 
