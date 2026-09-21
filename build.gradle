@@ -44,3 +44,15 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+tasks.register('collectJars', Copy) {
+    into layout.projectDirectory.dir('dist')
+    subprojects.each { subproject ->
+        dependsOn subproject.tasks.named('jar')
+        from subproject.tasks.named('jar')
+    }
+}
+
+tasks.named('build') {
+    dependsOn 'collectJars'
+}
