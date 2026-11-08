@@ -1,4 +1,4 @@
-# Optidum v1.6
+# Optidum v1.6.1
 
 **Optidum** is a high-performance companion optimization mod for Minecraft Fabric designed to synergize cleanly with **Sodium** and **Titanium**.
 
@@ -6,10 +6,12 @@
 
 ## What It Does
 
+- **Zero-Allocation Hot-Loop Reflection**: Overhauled entity AI tick loop using `ClassValue` metadata caching. Resolves classification and reflection handles once per class, completely eliminating `Method[]` allocations and string manipulation in the tick loop.
 - **Entity AI Optimization**: Throttles expensive AI goal and pathfinding evaluation for distant mobs, animals, and ambient creatures without affecting gravity, velocity, item despawning, or combat physics.
+- **Adaptive Memory Pressure AI Throttling**: Automatically scales mob AI reduction factor and active distance when JVM heap pressure exceeds 85%, dropping heap allocation rates without degrading nearby entity behavior.
 - **Smart Chunk Prioritization**: Prioritizes chunk loading and transmission in the direction the player is looking, and prevents chunk load/unload churn along chunk borders.
 - **Netty Packet Flush Consolidation**: Consolidates small, rapid Netty network packets into batched flushes, cutting socket syscall overhead and reducing ping jitter.
-- **Low-Overhead Memory Management**: Monitors JVM heap pressure on a 30-second interval, freeing transient caches and clearing level caches on dimension changes to prevent GC stutter and memory leaks.
+- **Active Memory & Cache Lifecycle Manager**: Modular non-blocking cache eviction on dimension transitions and under critical memory pressure, eliminating Stop-The-World `System.gc()` pauses.
 - **Dynamic FPS & Inactive Power Saver**: Automatically throttles framerate to a configurable cap (5–60 FPS) when the window is unfocused (Alt-Tabbed) or minimized, cutting GPU power draw, heat, and fan noise. Seamlessly yields to the `dynamic_fps` mod if installed.
 
 ---
