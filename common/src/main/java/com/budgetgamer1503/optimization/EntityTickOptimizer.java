@@ -12,18 +12,92 @@ public class EntityTickOptimizer {
     private static final Logger LOGGER = LoggerFactory.getLogger("Optidum/EntityOptimizer");
     private static long globalTickCount = 0;
 
-    private static Method getTargetMethod = null;
-    private static boolean getTargetLookedUp = false;
+    private static final class EntityClassMetadata {
+        final boolean isHostile;
+        final boolean isAnimal;
+        final boolean isAmbient;
+        final Method getTargetMethod;
+        final Field hurtTimeField;
+        final Method getIdMethod;
+        final Method getXMethod;
+        final Method getZMethod;
 
-    private static Field hurtTimeField = null;
-    private static boolean hurtTimeLookedUp = false;
+        EntityClassMetadata(Class<?> clazz) {
+            String name = clazz.getSimpleName().toLowerCase();
+            this.isHostile = name.contains("monster") || name.contains("zombie") ||
+                name.contains("skeleton") || name.contains("creeper") ||
+                name.contains("spider") || name.contains("hostile") ||
+                name.contains("pillager") || name.contains("raider");
 
-    private static Method getIdMethod = null;
-    private static boolean getIdLookedUp = false;
+            this.isAnimal = name.contains("animal") || name.contains("cow") ||
+                name.contains("sheep") || name.contains("pig") ||
+                name.contains("chicken") || name.contains("horse") ||
+                name.contains("passive");
 
-    private static Method getXMethod = null;
-    private static Method getZMethod = null;
-    private static boolean posMethodsLookedUp = false;
+            this.isAmbient = name.contains("ambient") || name.contains("bat") ||
+                name.contains("squid");
+
+            this.getTargetMethod = findMethod(clazz, new String[]{"getTarget", "method_5968"});
+            this.hurtTimeField = findField(clazz, new String[]{"hurtTime", "field_6235"});
+            this.getIdMethod = findMethod(clazz, new String[]{"getId", "method_5628"});
+            this.getXMethod = findPosMethod(clazz, new String[]{"getX", "method_23317"});
+            this.getZMethod = findPosMethod(clazz, new String[]{"getZ", "method_23321"});
+        }
+    }
+
+    private static final ClassValue<EntityClassMetadata> METADATA_CACHE = new ClassValue<>() {
+        @Override
+        protected EntityClassMetadata computeValue(Class<?> type) {
+            return new EntityClassMetadata(type);
+        }
+    };
+
+    private static Method findMethod(Class<?> clazz, String[] names) {
+        for (Method m : clazz.getMethods()) {
+            if (m.getParameterCount() == 0) {
+                for (String name : names) {
+                    if (m.getName().equals(name)) {
+                        try {
+                            m.setAccessible(true);
+                        } catch (Exception ignored) {}
+                        return m;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Method findPosMethod(Class<?> clazz, String[] names) {
+        for (Method m : clazz.getMethods()) {
+            if (m.getParameterCount() == 0 && (m.getReturnType() == double.class || m.getReturnType() == float.class)) {
+                for (String name : names) {
+                    if (m.getName().equals(name)) {
+                        try {
+                            m.setAccessible(true);
+                        } catch (Exception ignored) {}
+                        return m;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Field findField(Class<?> clazz, String[] names) {
+        Class<?> curr = clazz;
+        while (curr != null && curr != Object.class) {
+            for (String name : names) {
+                try {
+                    Field f = curr.getDeclaredField(name);
+                    f.setAccessible(true);
+                    return f;
+                } catch (NoSuchFieldException ignored) {}
+            }
+            curr = curr.getSuperclass();
+        }
+        return null;
+    }
 
     public static void onServerTick() {
         globalTickCount++;
@@ -40,156 +114,59 @@ public class EntityTickOptimizer {
         }
 
         try {
-            if (hasActiveTarget(mob)) {
+            EntityClassMetadata meta = METADATA_CACHE.get(mob.getClass());
+
+            if (meta.getTargetMethod != null) {
+                Object target = meta.getTargetMethod.invoke(mob);
+                if (target != null) {
+                    return false;
+                }
+            }
+
+            if (meta.hurtTimeField != null) {
+                int hurtTime = meta.hurtTimeField.getInt(mob);
+                if (hurtTime > 0) {
+                    return false;
+                }
+            }
+
+            if (meta.isHostile && !config.optimizeHostileEntities) {
+                return false;
+            }
+            if (meta.isAnimal && !config.optimizePassiveEntities) {
+                return false;
+            }
+            if (meta.isAmbient && !config.optimizeAmbientEntities) {
                 return false;
             }
 
-            if (isEntityHurt(mob)) {
-                return false;
-            }
-
-            String className = mob.getClass().getSimpleName().toLowerCase();
-
-            boolean isHostile = className.contains("monster") || className.contains("zombie") ||
-                className.contains("skeleton") || className.contains("creeper") ||
-                className.contains("spider") || className.contains("hostile") ||
-                className.contains("pillager") || className.contains("raider");
-
-            boolean isAnimal = className.contains("animal") || className.contains("cow") ||
-                className.contains("sheep") || className.contains("pig") ||
-                className.contains("chicken") || className.contains("horse") ||
-                className.contains("passive");
-
-            boolean isAmbient = className.contains("ambient") || className.contains("bat") ||
-                className.contains("squid");
-
-            if (isHostile && !config.optimizeHostileEntities) {
-                return false;
-            }
-            if (isAnimal && !config.optimizePassiveEntities) {
-                return false;
-            }
-            if (isAmbient && !config.optimizeAmbientEntities) {
-                return false;
-            }
-
-            int chunkX = getEntityChunkX(mob);
-            int chunkZ = getEntityChunkZ(mob);
-            if (ChunkOptimizer.isPlayerNear(chunkX, chunkZ, config.entityAiDistance)) {
-                return false;
-            }
-
-            int entityId = getEntityId(mob);
+            int distance = config.entityAiDistance;
             int factor = Math.max(2, config.entityAiReductionFactor);
+
+            if (config.adaptiveThrottlingOnMemoryPressure && MemoryOptimizer.isHighPressureAlerted()) {
+                distance = Math.max(16, (int) (distance * 0.75));
+                factor += 1;
+            }
+
+            int chunkX = 0;
+            int chunkZ = 0;
+            if (meta.getXMethod != null) {
+                double x = ((Number) meta.getXMethod.invoke(mob)).doubleValue();
+                chunkX = ((int) Math.floor(x)) >> 4;
+            }
+            if (meta.getZMethod != null) {
+                double z = ((Number) meta.getZMethod.invoke(mob)).doubleValue();
+                chunkZ = ((int) Math.floor(z)) >> 4;
+            }
+
+            if (ChunkOptimizer.isPlayerNear(chunkX, chunkZ, distance)) {
+                return false;
+            }
+
+            int entityId = (meta.getIdMethod != null) ? (int) meta.getIdMethod.invoke(mob) : mob.hashCode();
             return (entityId + globalTickCount) % factor != 0;
         } catch (Throwable ignored) {
             return false;
-        }
-    }
-
-    private static boolean hasActiveTarget(Object mob) {
-        try {
-            if (getTargetMethod == null) {
-                for (Method m : mob.getClass().getMethods()) {
-                    if (m.getName().equals("getTarget") || m.getName().equals("method_5968")) {
-                        if (m.getParameterCount() == 0) {
-                            m.setAccessible(true);
-                            getTargetMethod = m;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (getTargetMethod != null) {
-                return getTargetMethod.invoke(mob) != null;
-            }
-        } catch (Throwable ignored) {}
-        return false;
-    }
-
-    private static boolean isEntityHurt(Object mob) {
-        try {
-            if (hurtTimeField == null) {
-                Class<?> curr = mob.getClass();
-                while (curr != null && curr != Object.class) {
-                    try {
-                        Field f = curr.getDeclaredField("hurtTime");
-                        f.setAccessible(true);
-                        hurtTimeField = f;
-                        break;
-                    } catch (NoSuchFieldException e) {
-                        try {
-                            Field f = curr.getDeclaredField("field_6235");
-                            f.setAccessible(true);
-                            hurtTimeField = f;
-                            break;
-                        } catch (NoSuchFieldException ignored) {}
-                    }
-                    curr = curr.getSuperclass();
-                }
-            }
-            if (hurtTimeField != null) {
-                return hurtTimeField.getInt(mob) > 0;
-            }
-        } catch (Throwable ignored) {}
-        return false;
-    }
-
-    private static int getEntityId(Object mob) {
-        try {
-            if (getIdMethod == null) {
-                for (Method m : mob.getClass().getMethods()) {
-                    if (m.getName().equals("getId") || m.getName().equals("method_5628")) {
-                        if (m.getParameterCount() == 0 && m.getReturnType() == int.class) {
-                            m.setAccessible(true);
-                            getIdMethod = m;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (getIdMethod != null) {
-                return (int) getIdMethod.invoke(mob);
-            }
-        } catch (Throwable ignored) {}
-        return mob.hashCode();
-    }
-
-    private static int getEntityChunkX(Object mob) {
-        try {
-            ensurePosMethods(mob);
-            if (getXMethod != null) {
-                double x = ((Number) getXMethod.invoke(mob)).doubleValue();
-                return ((int) Math.floor(x)) >> 4;
-            }
-        } catch (Throwable ignored) {}
-        return 0;
-    }
-
-    private static int getEntityChunkZ(Object mob) {
-        try {
-            ensurePosMethods(mob);
-            if (getZMethod != null) {
-                double z = ((Number) getZMethod.invoke(mob)).doubleValue();
-                return ((int) Math.floor(z)) >> 4;
-            }
-        } catch (Throwable ignored) {}
-        return 0;
-    }
-
-    private static void ensurePosMethods(Object mob) {
-        if (getXMethod == null || getZMethod == null) {
-            for (Method m : mob.getClass().getMethods()) {
-                if (m.getParameterCount() == 0 && (m.getReturnType() == double.class || m.getReturnType() == float.class)) {
-                    if (m.getName().equals("getX") || m.getName().equals("method_23317")) {
-                        m.setAccessible(true);
-                        getXMethod = m;
-                    } else if (m.getName().equals("getZ") || m.getName().equals("method_23321")) {
-                        m.setAccessible(true);
-                        getZMethod = m;
-                    }
-                }
-            }
         }
     }
 

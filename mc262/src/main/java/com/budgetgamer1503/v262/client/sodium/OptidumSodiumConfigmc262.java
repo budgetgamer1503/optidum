@@ -88,7 +88,7 @@ public class OptidumSodiumConfigmc262 implements ConfigEntryPoint {
 
             Object modOptions = builder.registerModOptions(Optidum.MOD_ID);
             invokeMethod(modOptions, "setName", "Optidum");
-            invokeMethod(modOptions, "setVersion", "1.6");
+            invokeMethod(modOptions, "setVersion", Optidum.MOD_VERSION);
             try {
                 Object iconId = createIdentifier(Optidum.MOD_ID, "icon.png");
                 if (iconId != null) {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "optidum",
-  "version": "1.6",
+  "version": "1.6.1",
   "name": "Optidum",
   "description": "Companion optimization mod for Sodium featuring entity AI throttling, smart chunk prioritization, Netty packet batching, and dynamic FPS",
   "authors": [

@@ -4,6 +4,21 @@ All notable changes to **Optidum** are documented in this file.
 
 ---
 
+## [1.6.1] - 2026-11-08
+
+### Performance & Memory Optimizations
+- **Eliminated `System.gc()` Anti-Pattern**: Removed forced Stop-The-World full garbage collection sweeps on dimension change and high memory pressure. Replaced with non-blocking active cache eviction and adaptive throttling to prevent stutter spikes.
+- **Active Memory & Cache Lifecycle Manager**: Added modular `MemoryTrimCallback` listener registry in `MemoryOptimizer`. Automatically purges stale player view data, border churn records, and dimension tracking upon dimension change (`DIMENSION_CHANGE`) or critical heap usage (`CRITICAL`).
+- **Zero-Allocation Hot-Loop Reflection**: Overhauled `EntityTickOptimizer` to use `ClassValue` metadata caching. Resolves entity classification (hostile, animal, ambient) and reflection handles (`getTarget`, `hurtTime`, `getId`, `getX`, `getZ`) once per class. Completely eliminates `Class.getMethods()` array allocations and string parsing in the tick loop.
+- **Adaptive Memory Pressure AI Throttling**: Automatically scales mob AI reduction factor and active distance when JVM memory pressure exceeds 85%, dropping heap allocation rates without degrading nearby entity behavior.
+- **Configuration Options**: Added `adaptiveThrottlingOnMemoryPressure` (`true` by default) and `forceSystemGc` (`false` by default, preserving optional legacy behavior).
+
+### Fixed
+- Fixed unbounded reflection lookup leaks when checking mob target and hurt-time fields.
+- Fixed player tracking map reset behavior in `ChunkOptimizer`.
+
+---
+
 ## [1.6.0] - 2026-09-21
 
 ### Added

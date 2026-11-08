@@ -19,6 +19,8 @@ public class OptidumConfig {
     public boolean memoryOptimization = true;
     public boolean enableMemoryPressureMonitoring = true;
     public boolean dimensionCacheCleanup = true;
+    public boolean adaptiveThrottlingOnMemoryPressure = true;
+    public boolean forceSystemGc = false;
 
     public boolean dynamicFpsEnabled = true;
     public int unfocusedFpsLimit = 15;

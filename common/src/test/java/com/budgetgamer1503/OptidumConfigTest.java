@@ -20,6 +20,8 @@ public class OptidumConfigTest {
         assertTrue(config.networkOptimization);
         assertTrue(config.packetBatching);
         assertTrue(config.memoryOptimization);
+        assertTrue(config.adaptiveThrottlingOnMemoryPressure);
+        assertFalse(config.forceSystemGc);
         assertTrue(config.dynamicFpsEnabled);
         assertEquals(15, config.unfocusedFpsLimit);
         assertTrue(config.sodiumIntegration);

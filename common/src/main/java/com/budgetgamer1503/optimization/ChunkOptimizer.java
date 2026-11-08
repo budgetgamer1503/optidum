@@ -120,6 +120,18 @@ public class ChunkOptimizer {
         lastChunkPositions.clear();
     }
 
+    public static void trimMemory(boolean fullClear) {
+        if (fullClear) {
+            clearAll();
+        } else {
+            lastCrossingTimes.clear();
+            lastChunkPositions.clear();
+            if (playerViewData.size() > 64) {
+                playerViewData.clear();
+            }
+        }
+    }
+
     public static void clearPlayer(UUID uuid) {
         if (uuid != null) {
             playerViewData.remove(uuid);

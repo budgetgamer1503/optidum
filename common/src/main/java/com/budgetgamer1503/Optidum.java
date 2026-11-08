@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class Optidum {
     public static final String MOD_ID = "optidum";
     public static final String MOD_NAME = "Optidum";
-    public static final String MOD_VERSION = "1.6";
+    public static final String MOD_VERSION = "1.6.1";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static boolean isSodiumLoaded = false;
 
@@ -39,8 +39,8 @@ public class Optidum {
             LOGGER.info("[Optidum] Network packet batching ENABLED");
         }
         if (config.memoryOptimization) {
-            LOGGER.info("[Optidum] Memory optimization ENABLED (pressure monitoring: {}, dimension cleanup: {})",
-                config.enableMemoryPressureMonitoring, config.dimensionCacheCleanup);
+            LOGGER.info("[Optidum] Memory optimization ENABLED (cache eviction: {}, adaptive throttling: {}, force GC: {})",
+                config.dimensionCacheCleanup, config.adaptiveThrottlingOnMemoryPressure, config.forceSystemGc);
         }
         if (config.dynamicFpsEnabled) {
             LOGGER.info("[Optidum] Dynamic FPS power saver ENABLED (unfocused limit: {} FPS)", config.unfocusedFpsLimit);

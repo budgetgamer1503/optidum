@@ -1,0 +1,76 @@
+name: Publish to Modrinth & CurseForge
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v1.6.1)'
+        required: true
+        default: 'v1.6.1'
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'microsoft'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build distribution JARs
+        run: ./gradlew build
+
+      - name: Publish to Modrinth
+        uses: KirigamiMC/minotaur@v4
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project-id: "KymAaNrd"
+          version-number: "1.6.1"
+          version-name: "Optidum 1.6.1 - GC Elimination & FPS Boost"
+          version-type: "release"
+          changelog-file: "CHANGELOG.md"
+          files: |
+            dist/Optidum-mc1.20.1-1.6.1.jar
+            dist/Optidum-mc1.21.1-1.6.1.jar
+            dist/Optidum-mc1.19.4-1.6.1.jar
+            dist/Optidum-mc1.18.2-1.6.1.jar
+            dist/Optidum-mc1.17.1-1.6.1.jar
+            dist/Optidum-mc1.16.5-1.6.1.jar
+            dist/Optidum-mc26.2-1.6.1.jar
+            dist/Optidum-mc26.3-1.6.1.jar
+          game-versions: |
+            1.16.5
+            1.17.1
+            1.18.2
+            1.19.4
+            1.20.1
+            1.21.1
+            26.2
+            26.3
+          loaders: |
+            fabric
+
+      - name: Publish to CurseForge
+        uses: KirigamiMC/curseforge-upload@v1
+        with:
+          api-token: ${{ secrets.CURSEFORGE_API_KEY }}
+          project-id: "1512982"
+          release-type: "release"
+          changelog-file: "CHANGELOG.md"
+          file: "dist/Optidum-mc1.20.1-1.6.1.jar"
+          game-versions: |
+            1.20.1
+            Fabric
